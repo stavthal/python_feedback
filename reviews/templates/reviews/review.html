@@ -12,19 +12,14 @@
   </head>
   <body>
     <form action="/" method="POST">
-      <div class="form-control {% if form.user_name.errors %} errors {% endif %}">
-        {% csrf_token %} 
-        {{ form.user_name.label_tag }}
-        {{ form.user_name }}
-        {{ form.user_name.errors}}
-
-        {{ form.review_text.label_tag }}
-        {{ form.review_text }}
-        {{ form.review_text.errors}}
-
-        {{ form.rating.label_tag }}
-        {{ form.rating }}
-        {{ form.rating.errors}}
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-control {% if field.errors %} errors {% endif %}">
+        {{ field.label_tag }}
+        {{ field }}
+        {{ field.errors}}
+      </div>
+      {% endfor %}
         <br />
         <button type="submit">Submit</button>
       </div>

@@ -14,11 +14,14 @@ form {
 }
 
 button {
+    font-family: inherit;
+    font-weight: bold;
     cursor: pointer;
     padding: 0.5rem 1.5rem;
-    border-radius: 12px;
+    border-radius: 4px;
     background-color: #1f0050;
     color: white;
+    margin: 0.5rem 0;
     border: 1px solid #1f0050;
     display: inline-block;
 }
