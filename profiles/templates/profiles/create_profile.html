@@ -9,8 +9,18 @@
   <link rel="stylesheet" href="{% static "profiles/styles.css" %}">
 </head>
 <body>
-  <form>
-    <input type="file" />
+  <form action="/profiles" method="POST" enctype="multipart/form-data">
+     {% csrf_token %}
+    {% comment %} <input type="file" name="profile_pic" /> {% endcomment %}
+    {% for field in form %}
+      <div class="fieldWrapper">
+        {{ field.errors }}
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+          <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
     <button>Upload!</button>
   </form>
 </body>
