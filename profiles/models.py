@@ -5,8 +5,8 @@ from django.db import models
 class Profile(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    bio = models.TextField()
-    email = models.EmailField()
+    bio = models.TextField(max_length=500)
+    email = models.EmailField(unique=True, max_length=254)
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
 
     def __str__(self):

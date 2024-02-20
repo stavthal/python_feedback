@@ -1,22 +1,34 @@
 from django.shortcuts import render
-from django.views import View
+from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
-
+from django.views import View
 from django.views.generic.edit import FormView
 
-from .models import Profile
 from .forms import ProfileForm
+from .models import Profile
 
-# Create your views here.
+def store_file(file):
+    # Consider enhancing this function to handle file storage more safely and efficiently
+    with open("temp/profile_pic.jpg", "wb+") as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
 
+class CreateProfileView(View):
+    def get(self, request):
+        form = ProfileForm()
+        return render(request, "profiles/create_profile.html", {"form": form})
 
-class CreateProfileView(FormView):
-    # def get(self, request):
-    form_class = ProfileForm
-    template_name = "profiles/create_profile.html"
-    success_url = "/profiles"
-    object_name = "form"
-
-    # def post(self, request):
-    #     print(request.FILES["profile_pic"])
-    #     return HttpResponseRedirect("/profiles")
+    def post(self,request): 
+        store_file(request.FILES["profile_pic"]) # stores the file in the temp folder
+        submitted_form = ProfileForm(request.POST, request.FILES)
+        
+        if submitted_form.is_valid():
+            profile = Profile(profile_pic=request.FILES["profile_pic"],
+                              first_name=submitted_form.cleaned_data["first_name"],
+                              last_name=submitted_form.cleaned_data["last_name"],
+                              bio=submitted_form.cleaned_data["bio"],
+                              email=submitted_form.cleaned_data["email"])
+            profile.save()
+            return HttpResponseRedirect(reverse_lazy("create_profile"))
+        
+        return HttpResponseRedirect(reverse_lazy("create_profile"))
