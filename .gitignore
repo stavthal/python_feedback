@@ -3,3 +3,8 @@ __pychache__
 
 *.pyc
 .idea
+reviews/__pycache__/views.cpython-311.pyc
+reviews/__pycache__/urls.cpython-311.pyc
+reviews/__pycache__/models.cpython-311.pyc
+reviews/__pycache__/forms.cpython-311.pyc
+reviews/__pycache__/admin.cpython-311.pyc
