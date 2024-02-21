@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import View
@@ -44,6 +45,14 @@ class SingleReviewView(DetailView):
     template_name = "reviews/single_review.html"
     model = Review
     context_object_name = "review"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs) # Gets the context from the parent class
+        loaded_review = self.object # Gets the review that was loaded by the DetailView
+        request = self.request # Gets the request so we can use the session
+        favorite_id = request.session.get("favorite_review_id") # Gets the ID of the review stored in the session
+        context["is_favorite"] = favorite_id == str(loaded_review.id) # Adds a new key to the context dictionary
+        return context # Returns the context dictionary
 
 class AddFavoriteView(View):
     def post(self,request):
