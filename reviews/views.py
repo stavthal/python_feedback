@@ -48,6 +48,5 @@ class SingleReviewView(DetailView):
 class AddFavoriteView(View):
     def post(self,request):
         review_id = request.POST['review_id'] # Gets the ID of the review from the form
-        fav_review = Review.objects.get(id=review_id)
-        request.session['favorite_review_id'] = fav_review.id
+        request.session['favorite_review_id'] = review_id # Saves the review ID in the session
         return HttpResponseRedirect('/reviews/' + review_id) # Redirects to the review page
